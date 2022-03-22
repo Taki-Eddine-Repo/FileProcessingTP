@@ -12,27 +12,27 @@ int CREATE_DATABASES()
 	ofstream DEPT("DEPT.txt");
 	if (EMP.is_open())
 	{
-		EMP << "16712, MARTIN, directeur, 25717, 23 / 05 / 1990, 40000, NULL, 30,\n"
-				"17574, DUPONT, administratif, 16712, 03 / 05 / 1995, 9000, NULL, 30,\n"
-				"26691, DUPOND, commercial, 27047, 04 / 03 / 1988, 25000, 2500, 2,\n"
-				"25012, LAMBERT, administratif, 27047, 14 / 04 / 1991, 12000, NULL, 20,\n"
-				"25717, JOUBERT, president, NULL, 10 / 10 / 1982, 50000, NULL, 3,\n"
-				"16034, LEBRETON, commercial, 27047, 01 / 06 / 1991, 15000, NULL, 20,\n"
-				"17147, MARTIN, commercial, 27047, 10 / 12 / 1993, 20000, 500, 20,\n"
-				"27546, PAQUEL, commercial, 27047, 03 / 09 / 1983, 22000, 2000, 20,\n"
-				"25935, LEFEBVRE, commercial, 27047, 11 / 07 / 1984, 23500, 1500, 20,\n"
-				"15155, GARDARIN, ingenieur, 24533, 22 / 02 / 1985, 24000, NULL, 10,\n"
-				"26834, SIMON, ingenieur, 24533, 04 / 08 / 1988, 20000, NULL, 10,\n"
-				"16278, DELOBEL, ingenieur, 24533, 16 / 01 / 1994, 21000, NULL, 10,\n"
-				"25067, ADIBA, ingenieur, 24533, 05 / 12 / 1987, 30000, NULL, 10,\n"
-				"24533, CODD, directeur, 25717, 12 / 11 / 1975, 55000, NULL, 10,\n"
-				"27047, LAMERE, directeur, 25717, 07 / 09 / 1989, 45000, NULL, 20,\n"
-				"17232, BALIN, administratif, 24533, 03 / 10 / 1987, 13500, NULL, 10,\n"
-				"24831, BARA, administratif, 16712, 10 / 09 / 1988, 15000, NULL, 30,";
-		DEPT << "10, recherche, Rennes,\n"
-			"20, vente, Metz,\n"
-			"30, direction, Gif,\n"
-			"40, fabrication, Paris,";
+		EMP << "16712,MARTIN,directeur,25717,23/05/1990,40000,NULL,30,"
+			"17574, DUPONT, administratif, 16712, 03 / 05 / 1995, 9000, NULL, 30,"
+			"26691, DUPOND, commercial, 27047, 04 / 03 / 1988, 25000, 2500, 2,"
+			"25012, LAMBERT, administratif, 27047, 14 / 04 / 1991, 12000, NULL, 20,"
+			"25717, JOUBERT, president, NULL, 10 / 10 / 1982, 50000, NULL, 3,"
+			"16034, LEBRETON, commercial, 27047, 01 / 06 / 1991, 15000, NULL, 20,"
+			"17147, MARTIN, commercial, 27047, 10 / 12 / 1993, 20000, 500, 20,"
+			"27546, PAQUEL, commercial, 27047, 03 / 09 / 1983, 22000, 2000, 20,"
+			"25935, LEFEBVRE, commercial, 27047, 11 / 07 / 1984, 23500, 1500, 20,"
+			"15155, GARDARIN, ingenieur, 24533, 22 / 02 / 1985, 24000, NULL, 10,"
+			"26834, SIMON, ingenieur, 24533, 04 / 08 / 1988, 20000, NULL, 10,"
+			"16278, DELOBEL, ingenieur, 24533, 16 / 01 / 1994, 21000, NULL, 10,"
+			"25067, ADIBA, ingenieur, 24533, 05 / 12 / 1987, 30000, NULL, 10,"
+			"24533, CODD, directeur, 25717, 12 / 11 / 1975, 55000, NULL, 10,"
+			"27047, LAMERE, directeur, 25717, 07 / 09 / 1989, 45000, NULL, 20,"
+			"17232, BALIN, administratif, 24533, 03 / 10 / 1987, 13500, NULL, 10,"
+			"24831, BARA, administratif, 16712, 10 / 09 / 1988, 15000, NULL, 30, ";
+		DEPT << "10,recherche,Rennes,\n"
+			"20,vente,Metz,\n"
+			"30,direction,Gif,\n"
+			"40,fabrication,Paris,";
 		return 1;
 		EMP.close();
 		DEPT.close();
@@ -88,7 +88,6 @@ int EXPAND_ARRAY(string**& OLD_ARRAY, int& SIZE_OLD_ARRAY, char type)
 	OLD_ARRAY = NEW_ARRAY;
 	return 1;
 }
-
 int main()
 {
 	string error = "0";
@@ -263,12 +262,177 @@ int main()
 		break;	
 		case 4:
 		{
-
+			int pos = 0;
+			bool found;
+			// suppresion
+			while (choice > 0)
+			{
+				if (EMPlineCount < 0 || EMPlineCount == 0)
+				{
+					cout << "You have no employees" << endl;
+					goto END;
+				}
+				found = false;
+				cout << "Donnez la cle: (entrez un nombre negative to exit) "; cin >> choice; // use the same choice so that we don't have to make a new variable
+				for (size_t i = 0; i < EMPlineCount; i++)
+				{
+					if (EMP[i][0] == to_string(choice))
+					{
+						found = true;
+						pos = i;
+						break;
+					}
+				}
+				if (found)
+				{
+					for (size_t i = pos; i < EMPlineCount; i++)
+					{
+						if (i == EMPlineCount - 1)
+						{
+							break;
+						}
+						for (size_t j = 0; j < 8; j++)
+						{
+							int shift = i + 1;
+							EMP[i][j] = EMP[shift][j];
+						}
+					}
+					delete[] EMP[EMPlineCount - 1];
+					EMP[EMPlineCount - 1] = nullptr;
+					EMPlineCount--;
+					for (size_t i = 0; i < EMPlineCount; i++)
+					{
+						for (size_t j = 0; j < 8; j++)
+						{
+							cout << EMP[i][j] << " ";
+						}
+						cout << endl;
+					}
+				}
+				else
+				{
+					cout << "RECORD NOT FOUND";
+				}
+			}
+			cout << endl << endl;
+			cout << "Are you sure you want to delete the record? (This can't be undone)[y=1/n=0] "; cin >> choice;
+			if (choice == 1)
+			{
+				EMPHandle.close(); // saker fichier
+				ofstream EMPWRITE("EMP.txt"); // 3awed 7elou in WRITE mode
+				for (size_t i = 0; i < EMPlineCount; i++)
+				{
+					if (i == EMPlineCount - 1) // ila l7a9na lakher makalah najoutiw endl m3a lakher tfezed le7sab
+					{
+						EMPWRITE <<
+							EMP[i][0]
+							<< ","
+							<< EMP[i][1]
+							<< ","
+							<< EMP[i][2]
+							<< ","
+							<< EMP[i][3]
+							<< ","
+							<< EMP[i][4]
+							<< ","
+							<< EMP[i][6]
+							<< ","
+							<< EMP[i][6]
+							<< ","
+							<< EMP[i][7]
+							<< ","
+							;
+						continue; // skipi loop
+					}
+					EMPWRITE <<
+						EMP[i][0]
+						<< ","
+						<< EMP[i][1]
+						<< ","
+						<< EMP[i][2]
+						<< ","
+						<< EMP[i][3]
+						<< ","
+						<< EMP[i][4]
+						<< ","
+						<< EMP[i][6]
+						<< ","
+						<< EMP[i][6]
+						<< ","
+						<< EMP[i][7]
+						<< ",\n"
+						;
+				}
+				EMPWRITE.close(); // sakrou
+				EMPHandle.open("EMP.txt"); // 3awed 3elou in READ mode
+			}
+			else
+			{
+				// revert changes
+				for (size_t i = 0; i < EMPlineCount; i++)
+				{
+					// laoding the data storing it into arrays
+					EMP[i] = new string[8];
+					getline(EMPHandle, EMP[i][0], ',');
+					EMP[i][0] = (EMP[i][0][0] == '\n') ? string(EMP[i][0].begin() + 1, EMP[i][0].end()) : EMP[i][0];
+					getline(EMPHandle, EMP[i][1], ',');
+					getline(EMPHandle, EMP[i][2], ','); 
+					getline(EMPHandle, EMP[i][3], ',');
+					getline(EMPHandle, EMP[i][4], ',');
+					getline(EMPHandle, EMP[i][5], ',');
+					getline(EMPHandle, EMP[i][6], ',');
+					getline(EMPHandle, EMP[i][7], ',');
+				}
+				cout << endl << "Changes have been reverted" << endl;
+			}
 		}
+END:
 		break;	
 		case 5:
 		{
+			string** CROSS_JOIN = new string * [DEPTlineCount * EMPlineCount];
+			int CROSS_ROW = 0, EMPCOUNTER = 0, DEPTCOUNTER = 0;
+			for (size_t i = 0; i < DEPTlineCount * EMPlineCount; i++)
+			{
+				CROSS_JOIN[i] = new string[11];
+			}
+			int i = 0;
+			int checkPoint = 0;
+			while(i < DEPTlineCount * EMPlineCount)
+			{
+				for (size_t j = 0; j < DEPTlineCount; j++)
+				{
+					for (size_t k = 0; k < 8; k++)
+					{
+						CROSS_JOIN[i][k] = EMP[EMPCOUNTER][k];
+					}
+					i++;
+				}
+				EMPCOUNTER++;
+				if (EMPCOUNTER == EMPlineCount)
+					EMPCOUNTER = 0;
 
+
+				for (size_t j = checkPoint; j < i; j++)
+				{
+					for (size_t k = 0; k < 3; k++)
+					{
+						CROSS_JOIN[j][k + 8] = DEPT[DEPTCOUNTER][k];
+					}
+				}
+				checkPoint = i;
+				DEPTCOUNTER++;
+				if (DEPTCOUNTER == DEPTlineCount)
+					DEPTCOUNTER = 0;
+			}			
+			for (size_t i = 0; i < DEPTlineCount * EMPlineCount; i++)
+			{
+				for (size_t j = 0; j < 11; j++)
+				{
+					cout << CROSS_JOIN[i][j] << " ";
+				}
+				cout << endl;
+			}
 		}
 		break;	
 		case 6:
