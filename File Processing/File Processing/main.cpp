@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -88,6 +89,20 @@ int EXPAND_ARRAY(string**& OLD_ARRAY, int& SIZE_OLD_ARRAY, char type)
 	OLD_ARRAY = NEW_ARRAY;
 	return 1;
 }
+
+int SEARCH(string** DEPT, int SIZE, int number)
+{
+	for (size_t i = 0; i < SIZE; i++)
+	{
+		if (stoi(DEPT[i][0]) == number)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+
 int main()
 {
 	string error = "0";
@@ -390,6 +405,93 @@ END:
 		break;	
 		case 5:
 		{
+SEARCH_AGAIN:
+			cout << "Ara numero ta3 departement tchuf: "; cin >> choice;
+			int res = SEARCH(DEPT, DEPTlineCount, choice);
+			if (res)
+			{
+				cout << endl;
+				cout << DEPT[res][0] << " " << DEPT[res][1] << " " << DEPT[res][2] << "\n";
+				cout << endl;
+
+			}
+			else
+			{
+				cout << "\nMakash ya shkoupi t7aresh bina?\n\n";
+				goto SEARCH_AGAIN;
+			}
+		}
+		break;	
+		case 6:
+		{
+			cout << "Hak w matzidesh t3awed" << endl;
+			for (size_t i = 0; i < DEPTlineCount; i++)
+			{
+				for (size_t j = 0; j < 3; j++)
+				{
+					cout << DEPT[i][j] << " ";
+				}
+				cout << endl;
+			}
+			cout << endl;
+		}
+		break;	
+		case 7:
+		{
+			cout << "7abibi wallahi 7abibi hak w okhrej 3liya\n" << endl;
+			for (size_t i = 0; i < EMPlineCount; i++)
+			{
+				for (size_t j = 0; j < 3; j++)
+				{
+					cout << EMP[i][j] << " ";
+				}
+				cout << endl;
+			}
+			cout << endl;
+		}
+		break;	
+		case 8:
+		{
+			cout << "3amer le9ra3 gedeh neselkou 7na thani 7asdina fel khobza\n" << endl;
+			for (size_t i = 0; i < EMPlineCount; i++)
+			{
+				cout << EMP[i][1] << " yeslek 7bibna " << EMP[i][5] << " Allah Ybarek";
+				cout << endl;
+			}
+			cout << endl;
+		}
+		break;	
+		case 9:
+		{
+			// Hiya mlkhr, matlob hadha kayna tari9a tsakhef bsh tkhaf y3aresh
+			// yekhi rana nshoufou f jedhoum tsema mlkhr na9edrou ndirou array w koul ma n7ebou
+			// nzidou fiha 7aja nchekiw gbel idha kayen ou nn bsh tkhaf ygoulek sahla bzf
+			string* professions = new string[EMPlineCount];
+			string clean[5];
+			for (size_t i = 0; i < EMPlineCount; i++)
+			{
+				professions[i] = EMP[i][2];
+			}
+			// Algorithm standard remove dulplicates
+			// sort it
+			sort(professions, professions+ EMPlineCount);
+			int j = 0;
+			for (size_t i = 0; i < EMPlineCount - 1; i++)
+			{
+				if (professions[i] != professions[i+ 1])
+				{
+					clean[j++] = professions[i];
+				}
+			}
+			clean[j++] = professions[EMPlineCount - 1];
+			for (size_t i = 0; i < 5; i++)
+			{
+				cout << clean[i] << endl;
+			}
+		}
+		break;	
+		case 10:
+		{
 			string** CROSS_JOIN = new string * [DEPTlineCount * EMPlineCount];
 			int CROSS_ROW = 0, EMPCOUNTER = 0, DEPTCOUNTER = 0;
 			for (size_t i = 0; i < DEPTlineCount * EMPlineCount; i++)
@@ -398,7 +500,7 @@ END:
 			}
 			int i = 0;
 			int checkPoint = 0;
-			while(i < DEPTlineCount * EMPlineCount)
+			while (i < DEPTlineCount * EMPlineCount)
 			{
 				for (size_t j = 0; j < DEPTlineCount; j++)
 				{
@@ -424,7 +526,7 @@ END:
 				DEPTCOUNTER++;
 				if (DEPTCOUNTER == DEPTlineCount)
 					DEPTCOUNTER = 0;
-			}			
+			}
 			for (size_t i = 0; i < DEPTlineCount * EMPlineCount; i++)
 			{
 				for (size_t j = 0; j < 11; j++)
@@ -433,51 +535,96 @@ END:
 				}
 				cout << endl;
 			}
-		}
-		break;	
-		case 6:
-		{
-
-		}
-		break;	
-		case 7:
-		{
-
-		}
-		break;	
-		case 8:
-		{
-
-		}
-		break;	
-		case 9:
-		{
-
-		}
-		break;	
-		case 10:
-		{
-
+			delete[] CROSS_JOIN;
 		}
 		break;	
 		case 11:
 		{
-
+			cout << endl;
+			for (size_t i = 0; i < EMPlineCount; i++)
+			{
+				int res = SEARCH(DEPT, DEPTlineCount, stoi(EMP[i][7]));
+				string DEPARTEMENT = res == -1 ? "NOT ASSIGNED" : DEPT[res][1];
+				cout << EMP[i][1] << " " << DEPARTEMENT << endl;
+			}
+			cout << endl;
 		}
 		break;	
 		case 12:
 		{
-
+			int A, B;
+			cout << endl;
+			cout << "A3tina linterval chuf dhrk khfif dhrif na7esboulek\n";
+			cout << "Lewel ";
+			cin >> A;
+			cout << "Thani ";
+			cin >> B;
+			cout << endl;
+			for (size_t i = 0; i < EMPlineCount; i++)
+			{
+				if (stoi(EMP[i][5]) > A && stoi(EMP[i][5]) < B)
+				{
+					cout << EMP[i][0] << " " << EMP[i][1] << " " << EMP[i][5] << endl;
+				}
+			}
+			cout << endl;
 		}
 		break;	
 		case 13:
 		{
+			int code = -1;
+			// First search for la recherche
+			for (size_t i = 0; i < DEPTlineCount; i++)
+			{
+				if (DEPT[i][1] == "recherche")
+					code = stoi(DEPT[i][0]);
+			}
+			if (code > 0)
+			{
+				for (size_t i = 0; i < EMPlineCount; i++)
+				{
+
+					if (stoi(EMP[i][7]) == code)
+						cout << EMP[i][0] << " " << EMP[i][1] << " " << EMP[i][7] << endl;
+				}
+			}
+			else
+				break;
 
 		}
 		break;	
 		case 14:
 		{
+			int** departments = new int*[DEPTlineCount];
+			for (size_t i = 0; i < DEPTlineCount; i++)
+			{
+				departments[i] = new int;
+				departments[i][1] = false;
+			}
+			
+			for (size_t i = 0; i < DEPTlineCount; i++)
+			{
+				departments[i][0] = stoi(DEPT[i][0]);
+			}
+			// we have the departments and their codes LOADED now let's find the thing
 
+			for (size_t i = 0; i < EMPlineCount; i++)
+			{
+				if (EMP[i][2] == "ingenieur")
+				{
+					for (size_t i = 0; i < DEPTlineCount; i++)
+					{
+						if (stoi(EMP[i][7]) == departments[i][0])
+							departments[i][1] = true;
+					}
+				}
+			}
+			for (size_t i = 0; i < DEPTlineCount; i++)
+			{
+				if (departments[i][1] == false)
+					cout << DEPT[i][0] << " " << DEPT[i][1] << endl;
+			}
+			delete[] departments;
 		}
 		break;
 		default:
@@ -485,6 +632,8 @@ END:
 			break;
 		}
 	}
+	delete[] EMP;
+	delete[] DEPT;
 	EMPHandle.close();
 	DEPTHandle.close();
 }

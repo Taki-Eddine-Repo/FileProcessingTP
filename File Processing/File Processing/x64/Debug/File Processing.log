@@ -1,4 +1,5 @@
 ﻿  main.cpp
-D:\USM\Juniors\Lbez File processing\FileProcessingTP\File Processing\File Processing\main.cpp(282,14): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\USM\Juniors\Lbez File processing\FileProcessingTP\File Processing\File Processing\main.cpp(296,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\USM\Juniors\Lbez File processing\FileProcessingTP\File Processing\File Processing\main.cpp(99,12): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+D:\USM\Juniors\Lbez File processing\FileProcessingTP\File Processing\File Processing\main.cpp(297,14): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+D:\USM\Juniors\Lbez File processing\FileProcessingTP\File Processing\File Processing\main.cpp(311,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   File Processing.vcxproj -> D:\USM\Juniors\Lbez File processing\FileProcessingTP\File Processing\x64\Debug\File Processing.exe
